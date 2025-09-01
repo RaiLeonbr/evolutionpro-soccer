@@ -92,11 +92,12 @@ if st.session_state.autenticado:
 
     df_jogos = carregar_jogos("jogos_atualizados_certo.xlsx")
     df_class = carregar_classificacao("tabela_classificacao_atualizada.csv")
+    times = ["Todos"] + sorted(
+    [t for t in pd.unique(df_jogos[['mandante', 'visitante']].values.ravel('K')) if pd.notna(t)]
+)
 
     rodadas = sorted(df_jogos['rodada'].unique())
     rodada_selecionada = st.multiselect("Selecione as rodadas", rodadas, default=rodadas)
-
-    times = ["Todos"] + sorted(pd.unique(df_jogos[['mandante', 'visitante']].values.ravel('K')))
 
     col_a, col_b = st.columns(2)
     with col_a:
@@ -185,7 +186,9 @@ if st.session_state.autenticado:
 
     # Filtro de últimos e próximos jogos
     st.subheader("📅 Filtro de Jogos por Rodada")
-    times_disponiveis = sorted(pd.unique(df_jogos[['mandante', 'visitante']].values.ravel('K')))
+    times_disponiveis = sorted(
+    [t for t in pd.unique(df_jogos[['mandante', 'visitante']].values.ravel('K')) if pd.notna(t)]
+)
 
     time_filtro = st.selectbox("Selecione um time para análise dos jogos", ["Todos"] + times_disponiveis)
     col1, col2 = st.columns(2)
