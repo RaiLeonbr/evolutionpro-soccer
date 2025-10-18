@@ -3,4 +3,5 @@ pandas
 plotly
 requests
 beautifulsoup4
+lxml
 datetime
